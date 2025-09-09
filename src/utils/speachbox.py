@@ -2,8 +2,6 @@ from typing import List, Dict
 from src.model.diarization import find_speaker
 
 
-
-"""Сопоставляет спикеров с сегментами текста"""
 def match_speakers_to_segments(transcript_segments: List[Dict], diarization_result) -> List[Dict]:
     matched_segments = []
     for segment in transcript_segments:

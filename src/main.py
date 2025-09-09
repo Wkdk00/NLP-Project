@@ -9,16 +9,13 @@ from utils.speachbox import match_speakers_to_segments
 
 from config import CONFIG
 
-# Отключаем предупреждения
 warnings.filterwarnings("ignore")
 
 
 def process_audio(file_path: str, hf_token: str):
-    """Основной процесс обработки аудио"""
     if not check_file_exists(file_path):
         return
 
-    # 1. Загрузка моделей
     print("🔄 Загрузка моделей...")
     diarization_model = load_diarization_model(hf_token)
     whisper_model = load_transcription_model()
@@ -28,26 +25,20 @@ def process_audio(file_path: str, hf_token: str):
         return
 
     try:
-        # 2. Диаризация
-        print("🔊 Анализ спикеров...")
+        print("🔊 Диаризация...")
         diarization = diarization_model(file_path)
 
-        # 3. Транскрибация
-        print("✍️ Транскрибация аудио...")
+        print("✍️ Транскрибация...")
         transcript = whisper_model.transcribe(file_path, language=CONFIG["language"])
 
-        # 4. Сопоставление спикеров с текстом
-        print("🧩 Сопоставление данных...")
+        print("🧩 Обработка...")
         matched_segments = match_speakers_to_segments(transcript["segments"], diarization)
 
-        # 5. Сохранение сырых результатов
         raw_output_path = os.path.join(CONFIG["output_dir"], "raw_transcript.txt")
         save_results(matched_segments, raw_output_path)
 
-        # 6. Оценка продавца
         print("🧠 Анализ данных...")
         result = load_deepseek()
-        print("🔥 Оценка продавца...")
         print(result)
 
     except Exception:

@@ -3,7 +3,6 @@ from typing import List, Dict
 
 
 def check_file_exists(file_path: str) -> bool:
-    """Проверка существования файла"""
     if not os.path.exists(file_path):
         print(f"❌ Файл {file_path} не найден!")
         return False
@@ -11,7 +10,6 @@ def check_file_exists(file_path: str) -> bool:
 
 
 def save_results(segments: List[Dict], output_path: str) -> None:
-    """Сохранение результатов в файл"""
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     with open(output_path, "w", encoding="utf-8") as f:
